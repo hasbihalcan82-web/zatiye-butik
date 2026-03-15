@@ -5,23 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zatiye'nin Butiği - Amasya</title>
     <style>
-        body { background-color: #000; color: #d4af37; font-family: 'Times New Roman', serif; margin: 0; padding: 0; }
-        header { padding: 50px; text-align: center; border-bottom: 1px solid #333; }
-        h1 { letter-spacing: 7px; text-transform: uppercase; font-size: 2.5em; margin: 0; }
-        .container { max-width: 1100px; margin: 40px auto; padding: 20px; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .product-card { border: 1px solid #333; padding: 20px; text-align: center; transition: 0.3s; }
+        /* Temel Ayarlar */
+        body { background-color: #000; color: #d4af37; font-family: 'Times New Roman', serif; margin: 0; padding: 0; overflow-x: hidden; }
+        h1, h2, h3 { letter-spacing: 5px; text-transform: uppercase; margin: 0; color: #d4af37; }
+        a { text-decoration: none; color: inherit; }
+
+        /* Arka Plan Görselleri İçin Hero Bölümü */
+        .hero { 
+            height: 100vh; 
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1582236803260-2e4a6a5d7e5e?q=80&w=1920&auto=format&fit=crop'); /* Buraya şık bir kumaş veya butik içi resmi koyabilirsin */
+            background-size: cover; 
+            background-position: center; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+        }
+
+        /* Başlık ve Alt Başlık */
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .hero p { color: #fff; font-size: 1.2em; max-width: 600px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+
+        /* Sepet İkonu ve Paneli */
+        #cart-icon { position: fixed; top: 30px; right: 30px; font-size: 1.8em; color: #d4af37; cursor: pointer; z-index: 1000; transition: 0.3s; }
+        #cart-icon:hover { color: #fff; }
+        #cart-panel { position: fixed; top: 0; right: -400px; width: 350px; height: 100%; background-color: #1a1a1a; border-left: 1px solid #333; z-index: 1001; transition: 0.5s; padding: 40px; }
+        #cart-panel.open { right: 0; }
+        #close-cart { position: absolute; top: 20px; right: 20px; font-size: 1.5em; cursor: pointer; color: #fff; }
+        #cart-items { color: #fff; list-style: none; padding: 0; margin-top: 30px; }
+        #cart-items li { margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; display: flex; justify-content: space-between; }
+        #cart-total { color: #d4af37; font-weight: bold; margin-top: 20px; display: block; }
+        .checkout-btn { background-color: #d4af37; color: #000; padding: 15px 30px; width: 100%; border: none; border-radius: 3px; font-weight: bold; cursor: pointer; margin-top: 30px; }
+
+        /* Ürün Vitrini */
+        .container { max-width: 1200px; margin: 80px auto; padding: 20px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
+        .product-card { 
+            border: 1px solid #333; 
+            background-color: #0d0d0d; 
+            padding: 25px; 
+            text-align: center; 
+            transition: 0.3s; 
+            position: relative; 
+            overflow: hidden; 
+        }
         .product-card:hover { border-color: #d4af37; }
-        .product-img { width: 100%; height: 350px; background-color: #1a1a1a; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; color: #444; }
-        .buy-btn { background-color: #d4af37; color: #000; padding: 12px 25px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 15px; border-radius: 3px; }
-        .price { font-size: 1.4em; display: block; margin: 10px 0; }
+        .product-img { width: 100%; height: 400px; background-color: #1a1a1a; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; color: #444; border-radius: 3px; }
+        .product-card h3 { font-size: 1.4em; margin-bottom: 10px; color: #fff; }
+        .price { font-size: 1.6em; display: block; margin: 15px 0; color: #d4af37; font-weight: bold; }
+        .add-to-cart-btn { background-color: #d4af37; color: #000; padding: 12px 25px; border: none; font-weight: bold; cursor: pointer; border-radius: 3px; margin-top: 15px; }
+
+        /* Footer */
+        footer { text-align: center; padding: 80px; border-top: 1px solid #333; color: #666; font-size: 1em; }
     </style>
 </head>
 <body>
 
-<header>
+<div id="cart-icon">&#128722; <span id="cart-count">0</span></div>
+
+<div id="cart-panel">
+    <span id="close-cart">&times;</span>
+    <h3>SENİN SEPETİN</h3>
+    <ul id="cart-items"></ul>
+    <span id="cart-total">Toplam: 0 TL</span>
+    <button class="checkout-btn">ÖDEMEYE GEÇ</button>
+</div>
+
+<header class="hero">
     <h1>ZATİYE'NİN BUTİĞİ</h1>
-    <p style="color: #888;">Amasya - Kalite ve Zarafetin Buluştuğu Nokta</p>
+    <p>Amasya - Kalite, Zarafet ve Zamansız Şıklık... Memuriyetten Gelen Asalet.</p>
 </header>
 
 <div class="container">
@@ -30,21 +83,56 @@
             <div class="product-img">Ürün Fotoğrafı Gelecek</div>
             <h3>Klasik Siyah Ceket</h3>
             <span class="price">1.250 TL</span>
-            <a href="#" class="buy-btn">ŞİMDİ SATIN AL</a>
+            <button class="add-to-cart-btn" onclick="addToCart('Klasik Siyah Ceket', 1250)">SEPETE EKLE</button>
         </div>
 
         <div class="product-card">
             <div class="product-img">Ürün Fotoğrafı Gelecek</div>
             <h3>Vizon Kaşe Kaban</h3>
             <span class="price">2.450 TL</span>
-            <a href="#" class="buy-btn">ŞİMDİ SATIN AL</a>
+            <button class="add-to-cart-btn" onclick="addToCart('Vizon Kaşe Kaban', 2450)">SEPETE EKLE</button>
         </div>
     </div>
 </div>
 
-<footer style="text-align:center; padding: 50px; border-top: 1px solid #333; color: #666;">
-    &copy; 2026 Zatiye'nin Butiği - Amasya
+<footer>
+    &copy; 2026 Zatiye'nin Butiği - Amasya - Tüm Hakları Saklıdır.
 </footer>
+
+<script>
+    // Basit Sepet Mantığı
+    let cart = [];
+    let total = 0;
+
+    const cartIcon = document.getElementById('cart-icon');
+    const cartPanel = document.getElementById('cart-panel');
+    const closeCart = document.getElementById('close-cart');
+    const cartCount = document.getElementById('cart-count');
+    const cartItemsList = document.getElementById('cart-items');
+    const cartTotalSpan = document.getElementById('cart-total');
+
+    cartIcon.addEventListener('click', () => cartPanel.classList.add('open'));
+    closeCart.addEventListener('click', () => cartPanel.classList.remove('open'));
+
+    function addToCart(name, price) {
+        cart.push({name, price});
+        total += price;
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        cartCount.innerText = cart.length;
+        cartItemsList.innerHTML = '';
+        cartItemsList.style.color = '#fff';
+        cart.forEach(item => {
+            let li = document.createElement('li');
+            li.innerHTML = `<span>${item.name}</span> <span>${item.price} TL</span>`;
+            cartItemsList.appendChild(li);
+        });
+        cartTotalSpan.innerText = `Toplam: ${total} TL`;
+        cartTotalSpan.style.color = '#d4af37';
+    }
+</script>
 
 </body>
 </html>
