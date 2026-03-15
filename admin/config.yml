@@ -1,0 +1,18 @@
+backend:
+  name: git-gateway
+  branch: main # Eğer ana dalın adı 'master' ise burayı master yap, değilse main kalsın.
+
+media_folder: "images" # Fotoğrafların yükleneceği klasör
+public_folder: "/images"
+
+collections:
+  - name: "urunler"
+    label: "Ürünler"
+    folder: "content/urunler" # Ürünlerin kaydedileceği klasör
+    create: true # Yeni ürün ekleme izni
+    slug: "{{slug}}"
+    fields:
+      - {label: "Ürün Adı", name: "title", widget: "string"}
+      - {label: "Fiyat (TL)", name: "price", widget: "number"}
+      - {label: "Ürün Görseli", name: "image", widget: "image"}
+      - {label: "Ürün Açıklaması", name: "body", widget: "markdown"}
