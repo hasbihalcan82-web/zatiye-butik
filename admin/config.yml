@@ -7,13 +7,25 @@ public_folder: "/images"
 
 collections:
   - name: "urunler"
-    label: "Ürünler"
+    label: "Ürünler / Stok Yönetimi"
     folder: "content/urunler"
     create: true
     slug: "{{slug}}"
     fields:
       - {label: "Ürün Adı", name: "title", widget: "string"}
-      - {label: "Kategori", name: "category", widget: "select", options: ["Erkek", "Kadın", "Yeni Gelenler", "Fırsat Ürünleri"]}
-      - {label: "Fiyat (TL)", name: "price", widget: "number"}
+      - {label: "Kategori", name: "category", widget: "select", options: ["Kadın", "Erkek", "Aksesuar", "Yeni Sezon"]}
+      - {label: "Satış Fiyatı (TL)", name: "price", widget: "number"}
+      - {label: "İndirim Öncesi Fiyat (Opsiyonel)", name: "old_price", widget: "number", required: false}
+      - {label: "Stok Durumu", name: "stock", widget: "select", options: ["Stokta Var", "Tükendi"]}
+      - {label: "Beden Seçenekleri", name: "sizes", widget: "list", default: ["S", "M", "L", "XL"]}
       - {label: "Ürün Görseli", name: "image", widget: "image"}
       - {label: "Ürün Açıklaması", name: "body", widget: "markdown"}
+
+  - name: "banner"
+    label: "Ana Sayfa Vitrin (Banner)"
+    folder: "content/banner"
+    create: true
+    fields:
+      - {label: "Banner Başlığı", name: "title", widget: "string"}
+      - {label: "Alt Başlık", name: "subtitle", widget: "string"}
+      - {label: "Banner Görseli (Geniş)", name: "image", widget: "image"}
